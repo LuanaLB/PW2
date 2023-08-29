@@ -1,6 +1,6 @@
 package com.example.JPA.model.repository;
 
-import javax.persistence.EntityManager;
+import jakarta.persistence.EntityManager;
 import com.example.JPA.model.entity.Veiculo;
 import jakarta.persistence.PersistenceContext;
 import jakarta.persistence.Query;
@@ -22,7 +22,7 @@ public class VeiculoRepository {
     }
 
     public List<Veiculo> veiculos(){
-        Query query = em.createQuery("from Veiculo");
+        Query query = em.createQuery("from Veiculo ");
         return query.getResultList();
     }
 

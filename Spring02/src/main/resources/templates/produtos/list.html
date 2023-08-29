@@ -8,23 +8,22 @@
     <title>Lista de Produto</title>
 </head>
 <body>
-<h1>Lista de produtos</h1>
 
+<h1>Lista de produtos</h1>
 <table class="table" border="1">
     <thead>
-    <tr>
-        <th>ID</th>
-        <th>Descrição</th>
-        <th>Valor</th>
-
-    </tr>
+        <tr>
+            <th>ID</th>
+            <th>Descrição</th>
+            <th>Valor</th>
+        </tr>
     </thead>
-    <tr th:each="p : ${pessoas}">
+    <tr th:each="p : ${produtos}">
         <td th:text="${p.id}"> </td>
-        <td th:text="${p.nome}"> </td>
-        <td th:text="${p.idade}"> </td>
-        <td> <a th:href="@{/pessoas/edit/{id}(id=${p.id})}">Editar</a> </td>
-        <td> <a onclick="return window.confirm('Tem certeza que deseja excluir este registro?')"  th:href="@{/pessoas/remove/{id}(id=${p.id})}">Excluir</a> </td>
+        <td th:text="${p.descricao}"> </td>
+        <td th:text="${p.valor}"> </td>
+        <td> <a th:href="@{/templates/produtos/edit/{id}(id=${p.id})}">Editar</a> </td>
+        <td> <a onclick="return window.confirm('Tem certeza que deseja excluir este registro?')"  th:href="@{/templates/produtos/remove/{id}(id=${p.id})}">Excluir</a> </td>
     </tr>
 </table>
 

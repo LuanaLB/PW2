@@ -1,10 +1,31 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-  <meta charset="UTF-8">
-  <title>$Title$</title>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Lista</title>
+    <link rel="stylesheet" href="veiculoStyle.css">
 </head>
 <body>
-$END$
+<h1>Lista de Veiculos</h1>
+<a href="/veiculo/form">Adicionar</a>
+<table class="table" border="2">
+    <tr>
+        <th>ID</th>
+        <th>Modelo</th>
+        <th>Marca</th>
+        <th>Ano de Fabricação</th>
+        <th>Placa</th>
+    </tr>
+    <tr th:each="v : ${veiculos}">
+        <td th:text="${v.id}"> </td>
+        <td th:text="${v.modelo}"> </td>
+        <td th:text="${v.marca}"> </td>
+        <td th:text="${v.anoFabricacao}"> </td>
+        <td th:text="${v.placa}"> </td>
+        <td> <a th:href="@{/veiculos/edit/{id}(id=${v.id})}">Editar</a> </td>
+        <td> <a onclick="return window.confirm('Tem certeza que deseja excluir este registro?')"  th:href="@{/veiculos/remove/{id}(id=${v.id})}">Excluir</a> </td>
+    </tr>
+</table>
 </body>
 </html>

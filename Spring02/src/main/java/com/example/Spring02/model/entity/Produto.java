@@ -1,6 +1,7 @@
 package com.example.Spring02.model.entity;
 
 public class Produto {
+
     private Long id;
     private String descricao;
     private Long valor;

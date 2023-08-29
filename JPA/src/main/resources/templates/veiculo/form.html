@@ -1,10 +1,20 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-  <meta charset="UTF-8">
-  <title>$Title$</title>
+    <meta charset="UTF-8">
+    <link rel="stylesheet" href="veiculoStyle.css">
+
+    <title>Formulario de Veiculo</title>
 </head>
 <body>
-$END$
+    <h1>Formulario</h1>
+    <form method="post" th:action="${veiculo.id == null} ? @{/veiculos/save} : @{/veiculos/update}" th:object="${veiculo}" >
+        <input type="hidden" th:field="*{id}">
+        <input type="text" th:field="*{modelo}"  placeholder="Modelo">
+        <input type="text" th:field="*{marca}"  placeholder="Marca">
+        <input type="text" th:field="*{anoFabricacao}"  placeholder="Ano de Fabricação">
+        <input type="text" th:field="*{placa}"  placeholder="Placa">
+        <input type="submit" value="Enviar">
+    </form>
 </body>
 </html>

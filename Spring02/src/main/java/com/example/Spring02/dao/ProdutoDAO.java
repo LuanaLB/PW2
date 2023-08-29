@@ -1,6 +1,6 @@
 package com.example.Spring02.dao;
 import com.example.Spring02.model.conexoes.MinhaConexao;
-import com.example.Spring02.model.entity.Pessoa;
+import com.example.Spring02.model.entity.Produto;
 import java.sql.Connection;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
@@ -10,100 +10,100 @@ import java.util.List;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 
-public class PessoaDAO {
+public class ProdutoDAO {
     Connection con;
-    public PessoaDAO(){
+    public ProdutoDAO(){
         con = MinhaConexao.conexao();
     }
 
-    public List<Pessoa> buscarPessoas() {
+    public List<Produto> buscarProdutos() {
         try {
-            String sql = "select * from tb_pessoa";
+            String sql = "select * from produto";
             PreparedStatement ps = con.prepareStatement(sql);
             ResultSet rs = ps.executeQuery();
 
-            List<Pessoa> pessoas = new ArrayList();
+            List<Produto> produtos = new ArrayList();
             while (rs.next()) {
-                Pessoa p = new Pessoa();
-                p.setId((long) rs.getInt("id"));
-                p.setValor((long) rs.getInt("valor"));
+                Produto p = new Produto();
+                p.setId(rs.getLong("id"));
                 p.setDescricao(rs.getString("descricao"));
+                p.setValor(rs.getLong("valor"));
 
-
-                pessoas.add(p);
+                produtos.add(p);
             }
-            return pessoas;
+            return produtos;
         } catch (SQLException ex) {
-            Logger.getLogger(PessoaDAO.class.getName()).log(Level.SEVERE, null, ex);
+            Logger.getLogger(ProdutoDAO.class.getName()).log(Level.SEVERE, null, ex);
         }
         return null;
     }
 
     public boolean remove(Long id) {
         try {
-            String sql = "delete from tb_pessoa where id = ?";
+            String sql = "delete from produto where id = ?";
             PreparedStatement ps = con.prepareStatement(sql);
             ps.setLong(1, id);
             if(ps.executeUpdate()==1)
                 return true;
 
         } catch (SQLException ex) {
-            Logger.getLogger(PessoaDAO.class.getName()).log(Level.SEVERE, null, ex);
+            Logger.getLogger(ProdutoDAO.class.getName()).log(Level.SEVERE, null, ex);
         }
         return false;
     }
 
-    public boolean save(Pessoa pessoa) {
+    public boolean save(Produto produto) {
         try {
-            String sql = "insert into tb_pessoa (nome) values (?)";
+            String sql = "insert into produto (descricao, id, valor) values (?,?, ?)";
             PreparedStatement ps = con.prepareStatement(sql);
-            ps.setString(1, pessoa.getDescricao());
+            ps.setString(1, produto.getDescricao());
+            ps.setLong(2, produto.getId());
+            ps.setLong(3, produto.getValor());
 
             if(ps.executeUpdate()==1)
                 return true;
 
         } catch (SQLException ex) {
-            Logger.getLogger(PessoaDAO.class.getName()).log(Level.SEVERE, null, ex);
+            Logger.getLogger(ProdutoDAO.class.getName()).log(Level.SEVERE, null, ex);
         }
         return false;
     }
 
-    public boolean update(Pessoa pessoa) {
+    public boolean update(Produto produto) {
         try {
-            String sql = "update tb_pessoa set nome=? where id=?";
+            String sql = "update produto set descricao = ?,valor where id= ?";
             PreparedStatement ps = con.prepareStatement(sql);
-            ps.setString(1, pessoa.getDescricao());
-            ps.setLong(2, pessoa.getId());
-            ps.setLong(2, pessoa.getValor());
-            //depois da uma olhada aqui(linha 77)
+            ps.setLong(1, produto.getId());
+            ps.setString(2, produto.getDescricao());
+            ps.setLong(3, produto.getValor());
+
 
             if (ps.executeUpdate()==1)
                 return true;
 
         } catch (SQLException ex) {
-            Logger.getLogger(PessoaDAO.class.getName()).log(Level.SEVERE, null, ex);
+            Logger.getLogger(ProdutoDAO.class.getName()).log(Level.SEVERE, null, ex);
         }
         return false;
     }
 
-    public Pessoa buscarPessoa(Long id) {
+    public Produto buscarProduto(Long id) {
         try {
-            String sql = "select * from tb_pessoa where id = ?";
+            String sql = "select * from produto where id = ?";
             PreparedStatement ps = con.prepareStatement(sql);
             ps.setLong(1, id);
 
             ResultSet rs = ps.executeQuery();
             if (rs.next()) {
-                Pessoa p = new Pessoa();
-                p.setId((long) rs.getInt("id"));
-                p.setValor((long) rs.getInt("valor"));
-                p.setDescricao(rs.getString("nome"));
+                Produto p = new Produto();
+                p.setId(rs.getLong("id"));
+                p.setValor(rs.getLong("valor"));
+                p.setDescricao(rs.getString("descricao"));
                 return p;
             }
         } catch (SQLException ex) {
-            Logger.getLogger(PessoaDAO.class.getName()).log(Level.SEVERE, null, ex);
+            Logger.getLogger(ProdutoDAO.class.getName()).log(Level.SEVERE, null, ex);
         }
         return null;
     }
-
 }
