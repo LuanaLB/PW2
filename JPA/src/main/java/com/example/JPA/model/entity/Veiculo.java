@@ -12,10 +12,10 @@ public class Veiculo implements Serializable {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
-    private String modelo;
-    private String marca;
-    private Long anoFabricacao;
-    private String placa;
+    public String modelo;
+    public String marca;
+    public Long anoFabricacao;
+    public String placa;
 
     public void setId(Long id) { this.id = id; }
 

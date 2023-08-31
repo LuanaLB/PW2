@@ -22,7 +22,7 @@ public class VeiculoRepository {
     }
 
     public List<Veiculo> veiculos(){
-        Query query = em.createQuery("from Veiculo ");
+        Query query = em.createQuery("from Veiculo");
         return query.getResultList();
     }
 
