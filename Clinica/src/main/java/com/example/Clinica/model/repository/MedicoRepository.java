@@ -17,11 +17,6 @@ public class MedicoRepository {
         return em.find(Medico.class, id);
     }
 
-    public List<Medico> medicos(){
-        Query query = em.createQuery("from Medico");
-        return query.getResultList();
-    }
-
     public void save(Medico medico){
         em.persist(medico);
     }
@@ -33,5 +28,10 @@ public class MedicoRepository {
 
     public void update(Medico medico){
         em.merge(medico);
+    }
+
+    public List<Medico> medicos(){
+        Query query = em.createQuery("from Medico");
+        return query.getResultList();
     }
 }

@@ -8,10 +8,10 @@ import java.time.LocalDateTime;
 @Entity
 public class Consulta implements Serializable {
 
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
     @Id
-    @GeneratedValue(strategy = GenerationType.AUTO)
     private Long id;
-    private String data;
+    private LocalDateTime dataEHorario;
     private double valor;
     private String observacao;
     @ManyToOne
@@ -27,12 +27,12 @@ public class Consulta implements Serializable {
         this.id = id;
     }
 
-    public String getData() {
-        return data;
+    public LocalDateTime getDataEHorario() {
+        return dataEHorario;
     }
 
-    public void setData(String data) {
-        this.data = data;
+    public void setDataEHorario(LocalDateTime dataEHorario) {
+        this.dataEHorario = dataEHorario;
     }
 
     public double getValor() {

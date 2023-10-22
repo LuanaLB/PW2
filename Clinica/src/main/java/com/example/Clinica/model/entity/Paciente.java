@@ -12,7 +12,7 @@ import java.util.List;
 @DiscriminatorValue("P")
 public class Paciente extends Pessoa{
     private String telefone;
-    @OneToMany(mappedBy = "paciente", cascade = CascadeType.ALL)
+    @OneToMany(mappedBy = "paciente")
     private List<Consulta> consultas;
 
     public String getTelefone() {

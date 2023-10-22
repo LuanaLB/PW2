@@ -17,22 +17,31 @@ public class ConsultaRepository {
     public Consulta consulta(Long id){
         return em.find(Consulta.class, id);
     }
+
+    public void save(Consulta consulta){
+        em.persist(consulta);
+    }
+
+    public void remove(Long id){
+        Consulta c = em.find(Consulta.class, id);
+        em.remove(c);
+    }
+
+    public void update(Consulta consulta){
+        em.merge(consulta);
+    }
     public List<Consulta> consultas(){
         Query query = em.createQuery("from Consulta");
         return query.getResultList();
     }
-    public List<Consulta> consultasMedico(Long id){
-        Query query = em.createQuery("from Consulta c where c.medico.id = " + id);
+    public List<Consulta> consultasMedico(Long medicoId){
+        Query query = em.createQuery("FROM Consulta c WHERE c.medico.id="+medicoId);
         return query.getResultList();
     }
-    public List<Consulta> consultasPaciente(Long id){
-        Query query = em.createQuery("from Consulta c where c.paciente.id = "+ id);
+    public List<Consulta> consultasPaciente(Long pacienteId){
+        Query query = em.createQuery("FROM Consulta c WHERE c.paciente.id ="+pacienteId);
         return query.getResultList();
     }
 
-    public List<Consulta> consultaSeleci(){
-        Query query = em.createQuery("from Consulta");
-        return query.getResultList();
-    }
 }
 
