@@ -1,13 +1,11 @@
-package com.example.Clinica.model.entity;
-
-
-import jakarta.persistence.*;
-import jakarta.validation.constraints.NotBlank;
-import jakarta.validation.constraints.NotNull;
-import jakarta.validation.constraints.Past;
+package com.consulta.consulta.model.entity;
 
 import java.io.Serializable;
+import java.time.LocalDate;
 import java.time.LocalDateTime;
+import java.util.Objects;
+
+import jakarta.persistence.*;
 
 @Entity
 public class Consulta implements Serializable {
@@ -15,17 +13,17 @@ public class Consulta implements Serializable {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     @Id
     private Long id;
-    @Past
-    private LocalDateTime dataEHorario;
-    @NotNull
-    private double valor;
 
-    @NotBlank
+    private LocalDateTime data;
+    private double valor;
     private String observacao;
+
     @ManyToOne
     private Paciente paciente;
+
     @ManyToOne
     private Medico medico;
+
 
     public Long getId() {
         return id;
@@ -35,12 +33,12 @@ public class Consulta implements Serializable {
         this.id = id;
     }
 
-    public LocalDateTime getDataEHorario() {
-        return dataEHorario;
+    public LocalDateTime getData() {
+        return data;
     }
 
-    public void setDataEHorario(LocalDateTime dataEHorario) {
-        this.dataEHorario = dataEHorario;
+    public void setData(LocalDateTime data) {
+        this.data = data;
     }
 
     public double getValor() {

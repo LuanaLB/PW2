@@ -1,24 +1,27 @@
-package com.example.Clinica.controller;
 
-import com.example.Clinica.model.entity.Consulta;
-import com.example.Clinica.model.repository.ConsultaRepository;
-import com.example.Clinica.model.repository.MedicoRepository;
-import com.example.Clinica.model.repository.PacienteRepository;
+
+package com.consulta.consulta.controller;
+
+import com.consulta.consulta.model.entity.Consulta;
+import com.consulta.consulta.model.entity.Medico;
+import com.consulta.consulta.model.entity.Paciente;
+import com.consulta.consulta.model.repository.MedicoRepository;
+import com.consulta.consulta.model.repository.PacienteRepository;
 import jakarta.transaction.Transactional;
-import jakarta.validation.Valid;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.ModelMap;
-import org.springframework.validation.BindingResult;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
+
+import com.consulta.consulta.model.repository.ConsultaRepository;
 import org.springframework.web.servlet.ModelAndView;
 
-@Transactional
 @Controller
-@RequestMapping("consulta")
+@Transactional
+@RequestMapping("/consultas")
 public class ConsultaController {
 
     @Autowired
@@ -40,13 +43,22 @@ public class ConsultaController {
         return "/consulta/list";
     }
 
+    @GetMapping("/medico/{medicoId}")
+    public ModelAndView consultasDeMedico(@PathVariable("medicoId") Long medicoId, ModelMap model) {
+        model.addAttribute("consultas", consultaRepository.consultasDeMedico(medicoId));
+        return new ModelAndView("/medico/listConsultaMed", model);
+    }
+
+    @GetMapping("/paciente/{pacienteId}")
+    public ModelAndView consultasDePaciente(@PathVariable("pacienteId") Long pacienteId, ModelMap model) {
+        model.addAttribute("consultas", consultaRepository.consultasDePaciente(pacienteId));
+        return new ModelAndView("/paciente/listConsultaPac", model);
+    }
+
     @PostMapping("/save")
-    public ModelAndView save(@Valid Consulta consulta, BindingResult result) {
-        if(result.hasErrors()) {
-            return new ModelAndView("consulta/form");
-        }
+    public String save(Consulta consulta) {
         consultaRepository.save(consulta);
-        return new ModelAndView("redirect:/consulta/list");
+        return ("redirect:/consultas/list");
     }
 
     @GetMapping("/remove/{id}")
@@ -68,16 +80,4 @@ public class ConsultaController {
         consultaRepository.update(consulta);
         return ("redirect:/consultas/list");
     }
-
-    @GetMapping("/listamedico/{id}")
-    public String listamedico(@PathVariable("id") Long id, ModelMap model) {
-        model.addAttribute("consultas", consultaRepository.consultasMedico(id) );
-        return ("/consulta/listmedico");
-    }
-    @GetMapping("/listapaciente/{id}")
-    public String listapaciente(@PathVariable("id") Long id, ModelMap model){
-        model.addAttribute("consultas", consultaRepository.consultasPaciente(id));
-        return ("consulta/listpaciente");
-    }
-
 }
