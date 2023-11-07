@@ -1,18 +1,13 @@
-package com.example.Clinica.model.entity;
+package com.consulta.consulta.model.entity;
 
-
-import jakarta.persistence.CascadeType;
-import jakarta.persistence.DiscriminatorValue;
-import jakarta.persistence.Entity;
-import jakarta.persistence.OneToMany;
-import jakarta.validation.constraints.NotBlank;
-
+import java.io.Serializable;
 import java.util.List;
+
+import jakarta.persistence.*;
 
 @Entity
 @DiscriminatorValue("M")
 public class Medico extends Pessoa{
-    @NotBlank
     private String crm;
     @OneToMany(mappedBy = "medico")
     private List<Consulta> consultas;

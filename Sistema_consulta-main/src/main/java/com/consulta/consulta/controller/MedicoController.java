@@ -1,45 +1,39 @@
-package com.example.Clinica.controller;
+package com.consulta.consulta.controller;
 
-import com.example.Clinica.model.entity.Consulta;
-import com.example.Clinica.model.entity.Medico;
-import com.example.Clinica.model.repository.MedicoRepository;
-import jakarta.validation.Valid;
+import com.consulta.consulta.model.entity.Medico;
+import com.consulta.consulta.model.repository.MedicoRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.transaction.annotation.Transactional;
 import org.springframework.ui.ModelMap;
-import org.springframework.validation.BindingResult;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.servlet.ModelAndView;
 
 @Transactional
 @Controller
-@RequestMapping("medicos")
+@RequestMapping("/medicos")
 public class MedicoController {
+
     @Autowired
     MedicoRepository medicoRepository;
+
+    @GetMapping("/list")
+    public String list(ModelMap model) {
+        model.addAttribute("medicos", medicoRepository.medicos());
+        return "/medico/listmedico";
+    }
 
     @GetMapping("/form")
     public String form(Medico medico){
         return "/medico/form";
     }
 
-    @GetMapping("/list")
-    public String listar(ModelMap model) {
-        model.addAttribute("medicos", medicoRepository.medicos());
-        return ("/medico/list");
-    }
-
     @PostMapping("/save")
-    public ModelAndView save(@Valid Medico medico, BindingResult result) {
-        if(result.hasErrors()) {
-            return new ModelAndView("medico/form");
-        }
+    public String save(Medico medico){
         medicoRepository.save(medico);
-        return new ModelAndView("redirect:/medico/list");
+        return ("redirect:/medicos/list");
     }
 
     @GetMapping("/remove/{id}")

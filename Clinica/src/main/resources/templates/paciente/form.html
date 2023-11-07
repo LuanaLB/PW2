@@ -13,7 +13,9 @@
 <form th:action="${paciente.id == null} ? @{/pacientes/save} : @{/pacientes/update}" th:object="${paciente}" method="post">
     <input type="hidden" th:field="*{id}">
     <input type="text" th:field="*{nome}"  placeholder="Nome">
+    <label class="invalid-feedback" th:if="${#fields.hasErrors('nome')}" th:errors="*{nome}"></label>
     <input type="text" th:field="*{telefone}"  placeholder="Telefone">
+    <label class="invalid-feedback" th:if="${#fields.hasErrors('telefone')}" th:errors="*{telefone}"></label>
     <input type="submit" class="btn btn-outline-info" value="Enviar">
 </form>
 </body>
