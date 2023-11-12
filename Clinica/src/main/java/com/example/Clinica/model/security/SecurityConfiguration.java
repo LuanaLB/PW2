@@ -1,5 +1,4 @@
-package com.example.Clinica.security;
-
+package com.example.Clinica.model.security;
 
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
@@ -15,31 +14,31 @@ import org.springframework.security.provisioning.InMemoryUserDetailsManager;
 import org.springframework.security.web.SecurityFilterChain;
 
 import static org.springframework.security.config.Customizer.withDefaults;
-import static org.springframework.transaction.TransactionDefinition.withDefaults;
 
-@Configuration //classe de configuração
-@EnableWebSecurity //indica ao Spring que serão definidas configurações personalizadas de segurança
+@Configuration
+@EnableWebSecurity
 public class SecurityConfiguration {
+
     @Bean
     public SecurityFilterChain securityFilterChain(HttpSecurity http) throws Exception {
         http.authorizeHttpRequests(
                         customizer ->
                                 customizer
-                                        .requestMatchers("/consulta/form").permitAll()
-                                        .requestMatchers("/consulta/list").hasAnyRole("ADMIN")
-                                        .requestMatchers(HttpMethod.POST,"/pessoafisica/save").permitAll()
+                                        .requestMatchers("/pacientes/form").permitAll()
+                                        .requestMatchers("/pacientes/list").hasAnyRole("ADMIN")
+                                        .requestMatchers(HttpMethod.POST,"/pacientes/save").permitAll()
                                         .anyRequest() //define que a configuração é válida para qualquer requisição.
                                         .authenticated() //define que o usuário precisa estar autenticado.
                 )
                 .formLogin(customizer ->
                         customizer
                                 .loginPage("/login") //passamos como parâmetro a URL para acesso à página de login que criamos
-                                .defaultSuccessUrl("/consulta/form", true)
+                                .defaultSuccessUrl("/pacientes/form", true)
                                 .permitAll() //define que essa página pode ser acessada por todos, independentemente do usuário estar autenticado ou não.
-                );
-               // .httpBasic(withDefaults()) //configura a autenticação básica (usuário e senha)
-                //.logout(LogoutConfigurer::permitAll) //configura a funcionalidade de logout no Spring Security.
-               // .rememberMe(withDefaults()); //permite que os usuários permaneçam autenticados mesmo após o fechamento do navegador
+                )
+                .httpBasic(withDefaults()) //configura a autenticação básica (usuário e senha)
+                .logout(LogoutConfigurer::permitAll) //configura a funcionalidade de logout no Spring Security.
+                .rememberMe(withDefaults()); //permite que os usuários permaneçam autenticados mesmo após o fechamento do navegador
         return http.build();
     }
 
