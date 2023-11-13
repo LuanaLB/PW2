@@ -24,16 +24,22 @@ public class SecurityConfiguration {
         http.authorizeHttpRequests(
                         customizer ->
                                 customizer
-                                        .requestMatchers("/pacientes/form").permitAll()
-                                        .requestMatchers("/pacientes/list").hasAnyRole("ADMIN")
-                                        .requestMatchers(HttpMethod.POST,"/pacientes/save").permitAll()
+                                        //.requestMatchers("/").permitAll()
+                                        .requestMatchers("/consulta/list").permitAll()
+                                        .requestMatchers("/consulta/form").hasAnyRole("ADMIN")
+                                        .requestMatchers("/consulta/list").hasAnyRole("USER","ADMIN")
+                                        .requestMatchers("/medicos/form").hasAnyRole("ADMIN")
+                                        .requestMatchers("/medicos/list").hasAnyRole("USER","ADMIN")
+                                        .requestMatchers("/pacientes/form").hasAnyRole("ADMIN")
+                                        .requestMatchers("/pacientes/list").hasAnyRole("USER","ADMIN")
+                                        .requestMatchers(HttpMethod.POST,"/consulta/save").permitAll()
                                         .anyRequest() //define que a configuração é válida para qualquer requisição.
                                         .authenticated() //define que o usuário precisa estar autenticado.
                 )
                 .formLogin(customizer ->
                         customizer
                                 .loginPage("/login") //passamos como parâmetro a URL para acesso à página de login que criamos
-                                .defaultSuccessUrl("/pacientes/form", true)
+                                .defaultSuccessUrl("/consulta/list", true)
                                 .permitAll() //define que essa página pode ser acessada por todos, independentemente do usuário estar autenticado ou não.
                 )
                 .httpBasic(withDefaults()) //configura a autenticação básica (usuário e senha)
@@ -55,11 +61,6 @@ public class SecurityConfiguration {
         return new InMemoryUserDetailsManager(user1, admin);
     }
 
-    /**
-     * Com o método, instanciamos uma instância do encoder BCrypt e deixando o controle dessa instância como responsabilidade do Spring.
-     * Agora, sempre que o Spring Security necessitar condificar um senha, ele já terá o que precisa configurado.
-     * @return
-     */
     @Bean
     public PasswordEncoder passwordEncoder() {
         return new BCryptPasswordEncoder();
