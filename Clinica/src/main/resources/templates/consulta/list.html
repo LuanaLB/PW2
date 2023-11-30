@@ -1,28 +1,29 @@
 <!DOCTYPE html>
 
-<html th:replace="~{fragments/layout :: layout(~{::head},~{::main})}">
+<html th:replace="~{fragments/layout :: layout(~{::head},~{::main})}" xmlns:sec="http://www.w3.org/1999/xhtml"
+      xmlns:th="http://www.w3.org/1999/xhtml">
 
 <head th:replace="~{fragments/head :: head(~{})}"></head>
 
 <body>
 <main>
-<h1>Lista de Consultas</h1>
-<table class="table" border="1">
-    <tr>
-        <th>ID</th>
-        <th>Data</th>
-        <th>valor</th>
-        <th>Observação</th>
-    </tr>
-    <tr th:each="c : ${consultas}">
-        <td th:text="${c.id}"> </td>
-        <td th:text="${c.dataEHorario}"> </td>
-        <td th:text="${c.valor}"> </td>
-        <td th:text="${c.observacao}"> </td>
-        <td> <a th:href="@{/consultas/edit/{id}(id=${c.id})}">Editar</a> </td>
-        <td> <a onclick="return window.confirm('Tem certeza que deseja excluir este registro?')"  th:href="@{/consultas/remove/{id}(id=${c.id})}">Excluir</a> </td>
-    </tr>
-</table>
+    <h1>Lista de Consultas</h1>
+    <table class="table" border="1">
+        <tr>
+            <th>ID</th>
+            <th>Data</th>
+            <th>valor</th>
+            <th>Observação</th>
+        </tr>
+        <tr th:each="c : ${consultas}">
+            <td th:text="${c.id}"> </td>
+            <td th:text="${c.dataEHorario}"> </td>
+            <td th:text="${c.valor}"> </td>
+            <td th:text="${c.observacao}"> </td>
+            <td> <a sec:authorize="hasAnyRole('ADMIN')" th:href="@{/consultas/edit/{id}(id=${c.id})}">Editar</a> </td>
+            <td> <a sec:authorize="hasAnyRole('ADMIN')" onclick="return window.confirm('Tem certeza que deseja excluir este registro?')"  th:href="@{/consultas/remove/{id}(id=${c.id})}">Excluir</a> </td>
+        </tr>
+    </table>
 </main>
 </body>
 </html>
