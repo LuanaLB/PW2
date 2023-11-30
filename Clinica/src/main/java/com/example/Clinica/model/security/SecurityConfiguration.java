@@ -1,8 +1,10 @@
 package com.example.Clinica.model.security;
 
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.http.HttpMethod;
+import org.springframework.security.config.annotation.authentication.builders.AuthenticationManagerBuilder;
 import org.springframework.security.config.annotation.web.builders.HttpSecurity;
 import org.springframework.security.config.annotation.web.configuration.EnableWebSecurity;
 import org.springframework.security.config.annotation.web.configurers.LogoutConfigurer;
@@ -19,51 +21,60 @@ import static org.springframework.security.config.Customizer.withDefaults;
 @EnableWebSecurity
 public class SecurityConfiguration {
 
+    @Autowired
+    UsuarioDetailsConfig usuarioDetailsConfig;
+
     @Bean
     public SecurityFilterChain securityFilterChain(HttpSecurity http) throws Exception {
         http.authorizeHttpRequests(
                         customizer ->
                                 customizer
-                                        //.requestMatchers("/").permitAll()
-                                        .requestMatchers("/consulta/list").permitAll()
+                                        .requestMatchers("/").permitAll()
+                                        .requestMatchers("/home").permitAll()
                                         .requestMatchers("/consulta/form").hasAnyRole("ADMIN")
-                                        .requestMatchers("/consulta/list").hasAnyRole("USER","ADMIN")
+                                        .requestMatchers("/consulta/edit/*").hasAnyRole("ADMIN")
+                                        .requestMatchers("/consulta/remove/*").hasAnyRole("ADMIN")
                                         .requestMatchers("/medicos/form").hasAnyRole("ADMIN")
-                                        .requestMatchers("/medicos/list").hasAnyRole("USER","ADMIN")
+                                        .requestMatchers("/medicos/edit/*").hasAnyRole("ADMIN")
+                                        .requestMatchers("/medicos/remove/*").hasAnyRole("ADMIN")
                                         .requestMatchers("/pacientes/form").hasAnyRole("ADMIN")
-                                        .requestMatchers("/pacientes/list").hasAnyRole("USER","ADMIN")
-                                        .requestMatchers(HttpMethod.POST,"/consulta/save").permitAll()
-                                        .anyRequest() //define que a configuração é válida para qualquer requisição.
-                                        .authenticated() //define que o usuário precisa estar autenticado.
+                                        .requestMatchers("/pacientes/edit/*").hasAnyRole("ADMIN")
+                                        .requestMatchers("/pacientes/remove/*").hasAnyRole("ADMIN")
+                                        //.requestMatchers(HttpMethod.POST,"/consulta/save").permitAll()
+                                        .anyRequest()
+                                        .authenticated()
                 )
                 .formLogin(customizer ->
                         customizer
-                                .loginPage("/login") //passamos como parâmetro a URL para acesso à página de login que criamos
-                                .defaultSuccessUrl("/consulta/list", true)
-                                .permitAll() //define que essa página pode ser acessada por todos, independentemente do usuário estar autenticado ou não.
+                                .loginPage("/login")
+                                .defaultSuccessUrl("/home", true)
+                                .permitAll()
                 )
-                .httpBasic(withDefaults()) //configura a autenticação básica (usuário e senha)
-                .logout(LogoutConfigurer::permitAll) //configura a funcionalidade de logout no Spring Security.
-                .rememberMe(withDefaults()); //permite que os usuários permaneçam autenticados mesmo após o fechamento do navegador
+                .httpBasic(withDefaults())
+                .logout(LogoutConfigurer::permitAll)
+                .rememberMe(withDefaults());
         return http.build();
     }
+//    @Bean
+//    public InMemoryUserDetailsManager userDetailsService() {
+//        UserDetails user1 = User.withUsername("user")
+//                .password(passwordEncoder().encode("123"))
+//                .roles("USER")
+//                .build();
+//        UserDetails admin = User.withUsername("admin")
+//                .password(passwordEncoder().encode("admin"))
+//                .roles("ADMIN")
+//                .build();
+//        return new InMemoryUserDetailsManager(user1, admin);
+//    }
 
-    @Bean
-    public InMemoryUserDetailsManager userDetailsService() {
-        UserDetails user1 = User.withUsername("user")
-                .password(passwordEncoder().encode("123"))
-                .roles("USER")
-                .build();
-        UserDetails admin = User.withUsername("admin")
-                .password(passwordEncoder().encode("admin"))
-                .roles("ADMIN")
-                .build();
-        return new InMemoryUserDetailsManager(user1, admin);
+
+    @Autowired
+    public void configureUserDetails(final AuthenticationManagerBuilder builder) throws Exception {
+        builder.userDetailsService(usuarioDetailsConfig).passwordEncoder(new BCryptPasswordEncoder());
     }
-
     @Bean
     public PasswordEncoder passwordEncoder() {
         return new BCryptPasswordEncoder();
     }
-
 }

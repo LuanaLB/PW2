@@ -1,5 +1,5 @@
-
-<header class="container" th:fragment="header">
+<header class="container" th:fragment="header" xmlns:sec="http://www.w3.org/1999/xhtml"
+        xmlns:th="http://www.w3.org/1999/xhtml">
 
     <nav class="navbar navbar-expand-lg bg-body-tertiary">
         <div class="container-fluid">
@@ -17,8 +17,7 @@
                         </a>
                         <ul class="dropdown-menu">
                             <li><a class="dropdown-item" href="/medicos/list">Lista consultas de Medicos</a></li>
-                            <li><hr class="dropdown-divider"></li>
-                            <li><a class="dropdown-item" href="/medicos/form">Cadastrar medico</a></li>
+                            <li sec:authorize="hasRole('ADMIN')"><a class="dropdown-item" href="/medicos/form">Cadastrar medico</a></li>
                         </ul>
                     </li>
 
@@ -29,8 +28,7 @@
                         </a>
                         <ul class="dropdown-menu">
                             <li><a class="dropdown-item" href="/pacientes/list">Lista consultas de pacientes</a></li>
-                            <li><hr class="dropdown-divider"></li>
-                            <li><a class="dropdown-item" href="/pacientes/form">Cadastrar pacientes</a></li>
+                            <li sec:authorize="hasRole('ADMIN')"><a class="dropdown-item" href="/pacientes/form">Cadastrar pacientes</a></li>
                         </ul>
                     </li>
 
@@ -42,20 +40,19 @@
                         <ul class="dropdown-menu">
                             <li><a class="dropdown-item" href="/consulta/listapaciente/">Lista consultas de pacientes</a></li>
                             <li><a class="dropdown-item" href="/consulta/listamedico/">Lista consultas de medicos</a></li>
-                            <li><hr class="dropdown-divider"></li>
-                            <li><a class="dropdown-item" href="/consulta/form">Cadastrar consulta</a></li>
+                            <li sec:authorize="hasRole('ADMIN')"><a class="dropdown-item" href="/consulta/form">Cadastrar consulta</a></li>
                         </ul>
                     </li>
 
                 </ul>
-                <form class="d-flex" role="search">
-                    <input class="form-control me-2" type="search" placeholder="Search" aria-label="Search">
-                    <button class="btn btn-outline-success" type="submit">Search</button>
+                <form th:action="@{/logout}" method="post" class="d-flex" role="search">
+                    <div class="me-2">
+                        <h2>Olá <strong sec:authentication="name"></strong></h2>
+                    </div>
+                    <button class="btn btn-outline-success" type="submit">Sair</button>
                 </form>
             </div>
         </div>
     </nav>
 
 </header>
-
-
