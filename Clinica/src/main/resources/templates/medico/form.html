@@ -5,16 +5,20 @@
 <head th:replace="~{fragments/head :: head(~{})}"></head>
 
 <body>
-<main>
-<h1>Formulario</h1><br>
+<main class="container">
+<h1>Formulario Medico</h1><br>
 <form th:action="${medico.id == null} ? @{/medicos/save} : @{/medicos/update}" th:object="${medico}" method="post">
     <input type="hidden" th:field="*{id}">
 
-    <input type="text" th:field="*{nome}"  placeholder="Nome"th:errorclass="is-invalid">
-    <label class="invalid-feedback" th:if="${#fields.hasErrors('nome')}" th:errors="*{nome}"></label>
+    <div class="mb-3">
+        <input type="text" class="form-control" th:field="*{nome}" placeholder="Nome"th:errorclass="is-invalid">
+        <label class="invalid-feedback" th:if="${#fields.hasErrors('nome')}" th:errors="*{nome}"></label>
+    </div>
 
-    <input type="text" th:field="*{crm}"  placeholder="CRM"th:errorclass="is-invalid">
-    <label class="invalid-feedback" th:if="${#fields.hasErrors('crm')}" th:errors="*{crm}"></label>
+    <div class="mb-3">
+        <input type="text" class="form-control" th:field="*{crm}"  placeholder="CRM"th:errorclass="is-invalid">
+        <label class="invalid-feedback" th:if="${#fields.hasErrors('crm')}" th:errors="*{crm}"></label>
+    </div>
 
     <input type="submit" class="btn btn-outline-info" value="Enviar">
 </form>

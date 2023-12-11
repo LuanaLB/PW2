@@ -66,7 +66,7 @@ public class ConsultaController {
     @PostMapping("/update")
     public String update(Consulta consulta) {
         consultaRepository.update(consulta);
-        return ("redirect:/consultas/list");
+        return ("redirect:/consulta/list");
     }
 
     @GetMapping("/listamedico/{id}")
