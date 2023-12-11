@@ -5,25 +5,32 @@
 
 <head th:replace="~{fragments/head :: head(~{})}"></head>
 
-<body>
-<main>
+<body >
+<main class="container">
     <h1>Lista de Consultas</h1>
-    <table class="table" border="1">
-        <tr>
-            <th>ID</th>
-            <th>Data</th>
-            <th>valor</th>
-            <th>Observação</th>
-        </tr>
-        <tr th:each="c : ${consultas}">
-            <td th:text="${c.id}"> </td>
-            <td th:text="${c.dataEHorario}"> </td>
-            <td th:text="${c.valor}"> </td>
-            <td th:text="${c.observacao}"> </td>
-            <td> <a sec:authorize="hasAnyRole('ADMIN')" th:href="@{/consultas/edit/{id}(id=${c.id})}">Editar</a> </td>
-            <td> <a sec:authorize="hasAnyRole('ADMIN')" onclick="return window.confirm('Tem certeza que deseja excluir este registro?')"  th:href="@{/consultas/remove/{id}(id=${c.id})}">Excluir</a> </td>
-        </tr>
-    </table>
+
+    <div class="p-3 text-primary-emphasis bg-primary-subtle border border-primary-subtle rounded-3">
+        <table class="table" border="1">
+            <tr>
+                <th>ID</th>
+                <th>Data</th>
+                <th>valor</th>
+                <th>Observação</th>
+                <th> </th>
+                <th> </th>
+                <th> </th>
+                <th> </th>
+            </tr>
+            <tr th:each="c : ${consultas}">
+                <td th:text="${c.id}"> </td>
+                <td th:text="${c.dataEHorario}"> </td>
+                <td th:text="${c.valor}"> </td>
+                <td th:text="${c.observacao}"> </td>
+                <td> <a sec:authorize="hasAnyRole('ADMIN')" th:href="@{/consulta/edit/{id}(id=${c.id})}">Editar</a> </td>
+                <td> <a sec:authorize="hasAnyRole('ADMIN')" onclick="return window.confirm('Tem certeza que deseja excluir este registro?')"  th:href="@{/consultas/remove/{id}(id=${c.id})}">Excluir</a> </td>
+            </tr>
+        </table>
+    </div>
 </main>
 </body>
 </html>

@@ -5,47 +5,50 @@
 <head th:replace="~{fragments/head :: head(~{})}"></head>
 
 <body>
-<main>
+<main class="container">
 <h1>Registro de consultas</h1><br>
 <form th:action="${consulta.id == null} ? @{/consulta/save} : @{/consultas/update}" th:object="${consulta}" method="post">
 
-    <input type="hidden" th:field="*{id}">
+    <div class="p-3 text-primary-emphasis bg-primary-subtle border border-primary-subtle rounded-3">
+        <input type="hidden" th:field="*{id}">
 
-    <div class="col-lg-2">
-        <label class="form-label">Valor</label>
-        <input type="number" th:field="*{valor}" placeholder="Valor" th:errorclass="is-invalid">
-        <label class="invalid-feedback" th:if="${#fields.hasErrors('valor')}" th:errors="*{valor}"></label>
+        <div class="mb-3">
+            <label class="form-label">Data e horário</label>
+            <input type="datetime-local" class="form-control" th:field="*{dataEHorario}" placeholder="Data e Horário" th:errorclass="is-invalid">
+            <label class="invalid-feedback" th:if="${#fields.hasErrors('dataEHorario')}" th:errors="*{dataEHorario}"></label>
+        </div>
+
+        <div class="mb-3">
+            <label class="form-label">Valor</label>
+            <input type="number" class="form-control" th:field="*{valor}" placeholder="Valor" th:errorclass="is-invalid">
+            <label class="invalid-feedback" th:if="${#fields.hasErrors('valor')}" th:errors="*{valor}"></label>
+        </div>
+
+        <div class="mb-3">
+            <label class="form-label">Observação</label>
+            <input type="text" class="form-control" th:field="*{observacao}"  placeholder="Observação" th:errorclass="is-invalid"><br>
+            <label class="invalid-feedback" th:if="${#fields.hasErrors('observacao')}" th:errors="*{observacao}"></label>
+        </div>
+
+        <select class="form-select" id="pacientes" th:field="*{paciente.id}">
+            <option value="">Selecione o paciente</option>
+            <option th:each="p : ${pacientes}" th:value="${p.id}"
+                    th:text="${p.nome}" selected="selected"></option>
+        </select><br>
+
+        <select class="form-select" id="medicos" th:field="*{medico.id}">
+            <option value="">Selecione o médico</option>
+            <option th:each="m : ${medicos}" th:value="${m.id}"
+                    th:text="${m.nome}" selected="selected"></option>
+        </select><br>
+
+        <input type="submit" class="btn btn-outline-primary" value="Enviar">
+
+        <!--  <div th:each="erro : ${#fields.detailedErrors()}">
+              <span th:text="${erro.fieldName}+' '+${erro.message}"></span>
+          </div> -->
     </div>
 
-    <div class="col-lg-2">
-        <label class="form-label">Data e horário</label>
-        <input type="datetime-local" th:field="*{dataEHorario}" placeholder="Data e Horário" th:errorclass="is-invalid">
-        <label class="invalid-feedback" th:if="${#fields.hasErrors('dataEHorario')}" th:errors="*{dataEHorario}"></label>
-    </div>
-
-    <div class="col-lg-2">
-        <label class="form-label">Observação</label>
-        <input type="text" th:field="*{observacao}"  placeholder="Observação" th:errorclass="is-invalid"><br>
-        <label class="invalid-feedback" th:if="${#fields.hasErrors('observacao')}" th:errors="*{observacao}"></label> <br>
-    </div>
-
-    <select class="form-select" id="pacientes" th:field="*{paciente.id}">
-        <option value="">Selecione o paciente</option>
-        <option th:each="p : ${pacientes}" th:value="${p.id}"
-                th:text="${p.nome}" selected="selected"></option>
-    </select><br>
-
-    <select class="form-select" id="medicos" th:field="*{medico.id}">
-        <option value="">Selecione o médico</option>
-        <option th:each="m : ${medicos}" th:value="${m.id}"
-                th:text="${m.nome}" selected="selected"></option>
-    </select><br>
-
-    <input type="submit" class="btn btn-outline-primary" value="Enviar">
-
-  <!--  <div th:each="erro : ${#fields.detailedErrors()}">
-        <span th:text="${erro.fieldName}+' '+${erro.message}"></span>
-    </div> -->
 </form>
 </main>
 </body>

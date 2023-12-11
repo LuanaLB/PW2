@@ -5,14 +5,16 @@
 <head th:replace="~{fragments/head :: head(~{})}"></head>
 
 <body>
-<main>
+<main class="container">
 <h1>Lista de Medicos</h1><br>
-<a href="/medicos/form" class="btn btn-outline-primary">Adicionar</a>
 <table class="table" border="1">
     <tr>
         <th>ID</th>
         <th>Nome</th>
         <th>crm</th>
+        <th> </th>
+        <th> </th>
+        <th> </th>
     </tr>
     <tr th:each="m : ${medicos}">
         <td th:text="${m.id}"> </td>
@@ -23,6 +25,7 @@
         <td> <a onclick="return window.confirm('Tem certeza que deseja excluir este registro?')"  th:href="@{/medicos/remove/{id}(id=${m.id})}" class="btn btn-outline-danger">Excluir</a> </td>
     </tr>
 </table>
+    <a href="/medicos/form" class="btn btn-outline-primary">Adicionar</a>
 </main>
 </body>
 </html>

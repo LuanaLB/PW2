@@ -1,0 +1,49 @@
+<!DOCTYPE html>
+
+<html th:replace="~{fragments/layout :: layout(~{::head},~{::main})}">
+
+<head th:replace="~{fragments/head :: head(~{})}"></head>
+<body>
+
+
+<main class="container">
+    <h1>Reserva de consulta</h1>
+    <form th:action="${agenda.id == null} ? @{/agendas/save} : @{/agendas/update}"
+          th:object="${agenda}" method="post">
+
+        <div class="p-3 text-primary-emphasis bg-primary-subtle border border-primary-subtle rounded-3">
+
+            <input type="hidden" th:field="*{id}">
+
+            <div class="mb-3" >
+                <label class="form-label">Data e horário</label>
+                <input type="datetime-local" class="form-control" th:field="*{data}" placeholder="Data" th:errorclass="is-invalid">
+                <label class="invalid-feedback" th:if="${#fields.hasErrors('data')}" th:errors="*{data}"></label>
+            </div>
+
+            <div class="mb-3">
+                <label class="form-label">Status</label>
+                <input type="checkbox"th:field="*{status}" placeholder="status">
+                <label class="invalid-feedback" th:if="${#fields.hasErrors('status')}" th:errors="*{status}"></label>
+            </div>
+
+            <select class="form-select" id="medicos" th:field="*{medico.id}">
+                <option value="">Selecione o médico</option>
+                <option th:each="m : ${medicos}" th:value="${m.id}"
+                        th:text="${m.nome}" selected="selected"></option>
+            </select> <br>
+
+            <input type="submit" class="btn btn-outline-primary" value="Enviar">
+
+            <div th:each="erro : ${#fields.detailedErrors()}">
+                <span th:text="${erro.fieldName}+' '+${erro.message}"></span>
+            </div>
+            <div class="invalid-feedback">Campo em branco</div>
+
+        </div>
+
+
+    </form>
+</main>
+</body>
+</html>

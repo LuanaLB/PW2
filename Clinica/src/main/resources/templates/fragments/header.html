@@ -3,7 +3,7 @@
 
     <nav class="navbar navbar-expand-lg bg-body-tertiary">
         <div class="container-fluid">
-            <a class="navbar-brand" href="#">Clinica</a>
+            <a class="navbar-brand" href="/home">Clinica</a>
             <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarSupportedContent" aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
                 <span class="navbar-toggler-icon"></span>
             </button>
@@ -17,7 +17,7 @@
                         </a>
                         <ul class="dropdown-menu">
                             <li><a class="dropdown-item" href="/medicos/list">Lista consultas de Medicos</a></li>
-                            <li sec:authorize="hasRole('ADMIN')"><a class="dropdown-item" href="/medicos/form">Cadastrar medico</a></li>
+                            <li sec:authorize="hasAnyRole('ADMIN','ATENDENTE')"><a class="dropdown-item" href="/medicos/form">Cadastrar medico</a></li>
                         </ul>
                     </li>
 
@@ -37,17 +37,27 @@
                         <a class="nav-link dropdown-toggle" href="#" role="button" data-bs-toggle="dropdown" aria-expanded="false">
                             Consulta
                         </a>
-                        <ul class="dropdown-menu">
-                            <li><a class="dropdown-item" href="/consulta/listapaciente/">Lista consultas de pacientes</a></li>
-                            <li><a class="dropdown-item" href="/consulta/listamedico/">Lista consultas de medicos</a></li>
+                        <ul sec:authorize="hasRole('ADMIN')" class="dropdown-menu">
+                            <li><a class="dropdown-item" href="/consulta/list">Lista de consultas</a></li>
                             <li sec:authorize="hasRole('ADMIN')"><a class="dropdown-item" href="/consulta/form">Cadastrar consulta</a></li>
+                        </ul>
+                    </li>
+
+                    <!--AGENDA-->
+                    <li class="nav-item dropdown">
+                        <a class="nav-link dropdown-toggle" href="#" role="button" data-bs-toggle="dropdown" aria-expanded="false">
+                            Agenda
+                        </a>
+                        <ul sec:authorize="hasRole('ADMIN')" class="dropdown-menu">
+                            <li><a sec:authorize="hasRole('ADMIN')" class="dropdown-item" href="/agendas/list">Lista de Agenda</a></li>
+                            <li sec:authorize="hasRole('ADMIN')"><a class="dropdown-item" href="/agendas/form">Agendamento</a></li>
                         </ul>
                     </li>
 
                 </ul>
                 <form th:action="@{/logout}" method="post" class="d-flex" role="search">
                     <div class="me-2">
-                        <h2>Olá <strong sec:authentication="name"></strong></h2>
+                        <h4> <strong sec:authentication="name"></strong></h4>
                     </div>
                     <button class="btn btn-outline-success" type="submit">Sair</button>
                 </form>

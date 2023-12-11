@@ -6,24 +6,27 @@
 <head th:replace="~{fragments/head :: head(~{})}"></head>
 
 <body>
-<main>
+<main class="container">
     <h1>Lista de Pacientes</h1><br>
-    <a href="/pacientes/form" class="btn btn-outline-primary">Adicionar</a>
     <table class="table" border="1">
         <tr>
             <th>ID</th>
             <th>Nome</th>
             <th>Telefone</th>
+            <th> </th>
+            <th> </th>
+            <th> </th>
         </tr>
         <tr th:each="p : ${pacientes}">
             <td th:text="${p.id}"> </td>
             <td th:text="${p.nome}"> </td>
             <td th:text="${p.telefone}"> </td>
-            <td> <a th:href="@{/consultas/listapaciente/{id}(id=${p.id})}"  class="btn btn-outline-info">Consulta</a> </td>
+            <td> <a th:href="@{/consulta/listapaciente/{id}(id=${p.id})}"  class="btn btn-outline-info">Consulta</a> </td>
             <td> <a sec:authorize="hasAnyRole('ADMIN')" th:href="@{/pacientes/edit/{id}(id=${p.id})}" class="btn btn-outline-warning">Editar</a> </td>
             <td> <a sec:authorize="hasAnyRole('ADMIN')" onclick="return window.confirm('Tem certeza que deseja excluir este registro?')"  th:href="@{/pacientes/remove/{id}(id=${p.id})}" class="btn btn-outline-danger">Excluir</a> </td>
         </tr>
-    </table>
+    </table> <br>
+    <a href="/pacientes/form" class="btn btn-outline-primary">Adicionar</a> <br>
 </main>
 </body>
 </html>
