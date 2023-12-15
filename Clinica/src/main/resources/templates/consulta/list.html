@@ -26,8 +26,8 @@
                 <td th:text="${c.dataEHorario}"> </td>
                 <td th:text="${c.valor}"> </td>
                 <td th:text="${c.observacao}"> </td>
-                <td> <a sec:authorize="hasAnyRole('ADMIN')" th:href="@{/consulta/edit/{id}(id=${c.id})}">Editar</a> </td>
-                <td> <a sec:authorize="hasAnyRole('ADMIN')" onclick="return window.confirm('Tem certeza que deseja excluir este registro?')"  th:href="@{/consultas/remove/{id}(id=${c.id})}">Excluir</a> </td>
+                <td> <a sec:authorize="hasAnyRole('ADMIN')" th:href="@{/consulta/edit/{id}(id=${c.id})}" class="btn btn-outline-warning">Editar</a> </td>
+                <td> <a sec:authorize="hasAnyRole('ADMIN')" onclick="return window.confirm('Tem certeza que deseja excluir este registro?')"  th:href="@{/consultas/remove/{id}(id=${c.id})}" class="btn btn-outline-danger">Excluir</a> </td>
             </tr>
         </table>
     </div>
