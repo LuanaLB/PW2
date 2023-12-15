@@ -39,7 +39,7 @@ public class MedicoController {
             return new ModelAndView("medico/form");
         }
         medicoRepository.save(medico);
-        return new ModelAndView("redirect:/medico/list");
+        return new ModelAndView("redirect:/medicos/list");
     }
 
     @GetMapping("/remove/{id}")

@@ -40,7 +40,7 @@ public class PacienteController {
             return new ModelAndView("paciente/form");
         }
         pacienteRepository.save(paciente);
-        return new ModelAndView("redirect:/paciente/list");
+        return new ModelAndView("redirect:/pacientes/list");
     }
 
     @GetMapping("/remove/{id}")
